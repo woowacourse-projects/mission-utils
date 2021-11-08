@@ -1,0 +1,30 @@
+plugins {
+    id 'java-library'
+}
+
+group 'camp.nextstep.edu'
+version '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    api 'org.assertj:assertj-core:3.21.0'
+    api 'org.junit.jupiter:junit-jupiter:5.8.1'
+    api 'org.mockito:mockito-inline:3.12.4'
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        afterSuite { desc, result ->
+            if (!desc.parent) {
+                def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} passed, ${result.failedTestCount} failed, ${result.skippedTestCount} skipped)"
+                def startItem = '|  ', endItem = '  |'
+                def repeatLength = startItem.length() + output.length() + endItem.length()
+                println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
+            }
+        }
+    }
+}
