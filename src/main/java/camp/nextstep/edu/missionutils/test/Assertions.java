@@ -1,5 +1,6 @@
 package camp.nextstep.edu.missionutils.test;
 
+import camp.nextstep.edu.missionutils.Mocking;
 import camp.nextstep.edu.missionutils.Randoms;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.MockedStatic;
@@ -9,9 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTimeoutPreemptively;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.MockedStatic.Verification;
 import static org.mockito.Mockito.mockStatic;
 
 public class Assertions {
@@ -30,12 +28,7 @@ public class Assertions {
         final Integer value,
         final Integer... values
     ) {
-        assertRandomTest(
-            () -> Randoms.pickNumberInList(anyList()),
-            executable,
-            value,
-            values
-        );
+        assertRandomTest(executable, Mocking.ofRandomNumberInList(value, values));
     }
 
     public static void assertRandomNumberInRangeTest(
@@ -43,49 +36,34 @@ public class Assertions {
         final Integer value,
         final Integer... values
     ) {
-        assertRandomTest(
-            () -> Randoms.pickNumberInRange(anyInt(), anyInt()),
-            executable,
-            value,
-            values
-        );
+        assertRandomTest(executable, Mocking.ofRandomNumberInRange(value, values));
     }
 
+    @SafeVarargs
     public static void assertRandomUniqueNumbersInRangeTest(
         final Executable executable,
         final List<Integer> value,
         final List<Integer>... values
     ) {
-        assertRandomTest(
-            () -> Randoms.pickUniqueNumbersInRange(anyInt(), anyInt(), anyInt()),
-            executable,
-            value,
-            values
-        );
+        assertRandomTest(executable, Mocking.ofRandomUniqueNumbersInRange(value, values));
     }
 
+    @SafeVarargs
     public static <T> void assertShuffleTest(
         final Executable executable,
         final List<T> value,
         final List<T>... values
     ) {
-        assertRandomTest(
-            () -> Randoms.shuffle(anyList()),
-            executable,
-            value,
-            values
-        );
+        assertRandomTest(executable, Mocking.ofShuffle(value, values));
     }
 
-    private static <T> void assertRandomTest(
-        final Verification verification,
-        final Executable executable,
-        final T value,
-        final T... values
+    public static void assertRandomTest(
+            final Executable executable,
+            final Mocking... mockings
     ) {
         assertTimeoutPreemptively(RANDOM_TEST_TIMEOUT, () -> {
             try (final MockedStatic<Randoms> mock = mockStatic(Randoms.class)) {
-                mock.when(verification).thenReturn(value, Arrays.stream(values).toArray());
+                Arrays.stream(mockings).forEach(mocking -> mocking.stub(mock));
                 executable.execute();
             }
         });
