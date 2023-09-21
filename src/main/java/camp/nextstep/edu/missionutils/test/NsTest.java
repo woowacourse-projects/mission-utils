@@ -1,5 +1,6 @@
 package camp.nextstep.edu.missionutils.test;
 
+import camp.nextstep.edu.missionutils.Console;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -39,6 +40,8 @@ public abstract class NsTest {
         try {
             run(args);
         } catch (final NoSuchElementException ignore) {
+        } finally {
+            Console.close();
         }
     }
 
