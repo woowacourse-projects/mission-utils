@@ -32,16 +32,18 @@ public abstract class NsTest {
     }
 
     protected final void run(final String... args) {
-        command(args);
-        runMain();
+        try {
+            command(args);
+            runMain();
+        } finally {
+            Console.close();
+        }
     }
 
     protected final void runException(final String... args) {
         try {
             run(args);
         } catch (final NoSuchElementException ignore) {
-        } finally {
-            Console.close();
         }
     }
 
