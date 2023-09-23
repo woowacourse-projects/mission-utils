@@ -1,7 +1,6 @@
 package camp.nextstep.edu.missionutils;
 
 import java.lang.reflect.Field;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class Console {
@@ -14,8 +13,14 @@ public class Console {
         return getInstance().nextLine();
     }
 
+    public static void close() {
+        if (scanner != null) {
+            scanner.close();
+        }
+    }
+
     private static Scanner getInstance() {
-        if (Objects.isNull(scanner) || isClosed()) {
+        if (scanner == null || isClosed()) {
             scanner = new Scanner(System.in);
         }
         return scanner;

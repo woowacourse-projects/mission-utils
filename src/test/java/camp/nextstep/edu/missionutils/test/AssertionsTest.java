@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-import static camp.nextstep.edu.missionutils.test.Assertions.*;
+import static camp.nextstep.edu.missionutils.test.Assertions.assertRandomNumberInRangeTest;
+import static camp.nextstep.edu.missionutils.test.Assertions.assertRandomUniqueNumbersInRangeTest;
+import static camp.nextstep.edu.missionutils.test.Assertions.assertShuffleTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class AssertionsTest {
