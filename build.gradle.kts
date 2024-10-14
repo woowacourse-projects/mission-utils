@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "camp.nextstep.edu"
-version = "1.1.0"
+version = "1.2.0"
 
 java {
     toolchain {
@@ -24,6 +24,18 @@ dependencies {
     api("org.junit.jupiter:junit-jupiter:5.11.0")
     implementation(mockito)
     mockitoAgent(mockito) { isTransitive = false }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = group as String
+            artifactId = project.name
+            version = version as String
+
+            from(components["java"])
+        }
+    }
 }
 
 tasks.test {
