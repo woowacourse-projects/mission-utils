@@ -9,13 +9,18 @@ repositories {
     mavenCentral()
 }
 
+val mockito = "org.mockito:mockito-core:5.14.1"
+val mockitoAgent = configurations.create("mockitoAgent")
+
 dependencies {
-    api("org.assertj:assertj-core:3.21.0")
-    api("org.junit.jupiter:junit-jupiter:5.8.1")
-    api("org.mockito:mockito-inline:3.12.4")
+    api("org.assertj:assertj-core:3.26.3")
+    api("org.junit.jupiter:junit-jupiter:5.11.0")
+    implementation(mockito)
+    mockitoAgent(mockito) { isTransitive = false }
 }
 
 tasks.test {
+    jvmArgs("-javaagent:${mockitoAgent.asPath}")
     useJUnitPlatform()
     testLogging {
         afterSuite(
