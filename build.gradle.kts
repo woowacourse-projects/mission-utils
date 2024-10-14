@@ -1,9 +1,16 @@
 plugins {
     `java-library`
+    `maven-publish`
 }
 
 group = "camp.nextstep.edu"
 version = "1.1.0"
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
 
 repositories {
     mavenCentral()
