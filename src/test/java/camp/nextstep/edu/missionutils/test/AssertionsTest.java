@@ -1,10 +1,13 @@
 package camp.nextstep.edu.missionutils.test;
 
+import camp.nextstep.edu.missionutils.DateTimes;
 import camp.nextstep.edu.missionutils.Randoms;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
+import static camp.nextstep.edu.missionutils.test.Assertions.assertNowTest;
 import static camp.nextstep.edu.missionutils.test.Assertions.assertRandomNumberInRangeTest;
 import static camp.nextstep.edu.missionutils.test.Assertions.assertRandomUniqueNumbersInRangeTest;
 import static camp.nextstep.edu.missionutils.test.Assertions.assertShuffleTest;
@@ -42,6 +45,14 @@ class AssertionsTest {
         assertShuffleTest(
             () -> assertThat(Randoms.shuffle(Arrays.asList("a", "b", "c"))).containsExactly("b", "a", "c"),
             Arrays.asList("b", "a", "c")
+        );
+    }
+
+    @Test
+    void now() {
+        assertNowTest(
+            () -> assertThat(DateTimes.now()).isEqualTo(LocalDateTime.of(2024, 10, 14, 0, 0)),
+            LocalDateTime.of(2024, 10, 14, 0, 0)
         );
     }
 }

@@ -1,10 +1,12 @@
 package camp.nextstep.edu.missionutils.test;
 
+import camp.nextstep.edu.missionutils.DateTimes;
 import camp.nextstep.edu.missionutils.Randoms;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.MockedStatic;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -86,6 +88,19 @@ public class Assertions {
         assertTimeoutPreemptively(RANDOM_TEST_TIMEOUT, () -> {
             try (final MockedStatic<Randoms> mock = mockStatic(Randoms.class)) {
                 mock.when(verification).thenReturn(value, Arrays.stream(values).toArray());
+                executable.execute();
+            }
+        });
+    }
+
+    public static void assertNowTest(
+        final Executable executable,
+        final LocalDateTime value,
+        final LocalDateTime... values
+    ) {
+        assertTimeoutPreemptively(RANDOM_TEST_TIMEOUT, () -> {
+            try (final MockedStatic<DateTimes> mock = mockStatic(DateTimes.class)) {
+                mock.when(DateTimes::now).thenReturn(value, Arrays.stream(values).toArray());
                 executable.execute();
             }
         });
